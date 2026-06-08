@@ -1,6 +1,6 @@
 let cs = 0
 let hs = 0
-
+let flag=true
 
 function getComputerChoice() {
     let ch = Math.floor(Math.random() * 3)
@@ -9,73 +9,112 @@ function getComputerChoice() {
     } else if (ch == 1) {
         return "paper"
     } else {
-        return "scissors"
+        return "scissor"
     }
 }
 
 function getHumanChoice() {
     let ch = prompt("Enter rock, paper or scissor: ")
-    ch=ch.toLowerCase()
+    ch = ch.toLowerCase()
     return ch
 }
 
-function showScore(){
-    alert("Current score:" +"\nHuman: "+hs +"\nComputer: "+cs)
-}
 
 
+function playRound(hch) {
 
-while (cs < 5 && hs < 5) {
-
-    let hch = getHumanChoice()
-    let cch = getComputerChoice()
-
-    if (cch === hch) {
-        alert("Its a tie!! Computer also chose the same")
-        showScore()
+    if(!flag){
+        return 0
     }
 
+    let cch = getComputerChoice()
+
+    let who = document.querySelector(".whowon")
+
+
+
+    if (cch === hch) {
+        who.textContent = "Its a tie!! Computer also chose the same"
+
+    }
     else if (cch === "rock") {
         if (hch === "paper") {
-            alert("You win!! Computer chose rock")
+            who.textContent = "You win!! Computer chose rock"
             hs++
-            showScore()
+
         } else if (hch === "scissor") {
-            alert("Sorry, you lose. Computer chose rock")
+            who.textContent = "Sorry, you lose. Computer chose rock"
             cs++
-            showScore()
+
         }
     } else if (cch === "paper") {
 
         if (hch === "scissor") {
-            alert("You win!! Computer chose paper")
+            who.textContent = "You win!! Computer chose paper"
             hs++
-            showScore()
+
 
         } else if (hch === "rock") {
-            alert("Sorry, you lose. Computer chose paper")
+            who.textContent = "Sorry, you lose. Computer chose paper"
             cs++
-            showScore()
+
         }
 
     } else if (cch === "scissor") {
 
         if (hch === "rock") {
-            alert("You win!! Computer chose scissors")
+            who.textContent = "You win!! Computer chose scissors"
             hs++
-            showScore()
+
 
         } else if (hch === "paper") {
-            alert("Sorry, you lose. Computer chose scissors")
+            who.textContent = "Sorry, you lose. Computer chose scissors"
             cs++
-            showScore()
+
         }
+    }
+
+    let humanScore = document.querySelector(".humanScore")
+    let compScore = document.querySelector(".compScore")
+    humanScore.textContent = hs
+    compScore.textContent = cs
+
+    
+
+    if (hs === 5) {
+        who.textContent = "CONGRAGULATIONS!! YOU WON THIS ROUND!!"
+        flag=false
+    } else if (cs === 5) {
+        who.textContent = "COMPUTER WON THIS ROUND!!"
+        flag=false
     }
 }
 
-if(hs===5){
-    alert("CONGRAGULATIONS!! YOU WON THIS ROUND!!")
-}else if(cs===5){
-    alert("COMPUTER WON THIS ROUND!!")
-}
 
+let rock = document.querySelector("#rock")
+rock.addEventListener("click", () => {
+    playRound("rock")
+})
+
+
+let paper = document.querySelector("#paper")
+paper.addEventListener("click", () => {
+    playRound("paper")
+})
+
+let scissors = document.querySelector("#scissors")
+scissors.addEventListener("click", () => {
+    playRound("scissor")
+})
+
+
+document.querySelector("#restart").addEventListener("click",()=>{
+    hs=0
+    cs=0
+    flag=true
+    document.querySelector(".whowon").textContent=""
+    let humanScore = document.querySelector(".humanScore")
+    let compScore = document.querySelector(".compScore")
+    humanScore.textContent = hs
+    compScore.textContent = cs
+})
